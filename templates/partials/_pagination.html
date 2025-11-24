@@ -1,9 +1,9 @@
 {% if page_obj.has_other_pages %}
-    {% with current_page=page_obj.number total_pages=page_obj.paginator.num_pages %}
+    {% with total_pages=page_obj.paginator.num_pages %}
     <nav aria-label="Navegação de páginas" class="mt-4">
         <ul class="pagination justify-content-center">
             
-            {# PRIMEIRA PÁGINA #}
+            {# 1. BOTÃO PRIMEIRA PÁGINA (««) #}
             {% if page_obj.number > 1 %}
                 <li class="page-item">
                     <a class="page-link" href="?page=1&{{ querystring }}" aria-label="Primeira">
@@ -16,7 +16,7 @@
                 </li>
             {% endif %}
 
-            {# PÁGINA ANTERIOR #}
+            {# 2. BOTÃO ANTERIOR («) #}
             {% if page_obj.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ querystring }}" aria-label="Anterior">
@@ -30,29 +30,15 @@
             {% endif %}
 
             
-            {# LOOP DE PÁGINAS TRUNCADO (5 ao redor da atual) #}
-            {% for num in page_obj.paginator.page_range %}
-                
-                {% if num > total_pages or num < 1 %}
-                    {% continue %}
-                {% endif %}
+            {# 3. PÁGINA ATUAL / NÚMERO TOTAL #}
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">
+                    Página **{{ page_obj.number }}** de **{{ total_pages }}**
+                </span>
+            </li>
+            
 
-                {% if num >= current_page|add:"-2" and num <= current_page|add:"2" %}
-                    
-                    {% if page_obj.number == num %}
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">{{ num }}</span>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="?page={{ num }}&{{ querystring }}">{{ num }}</a>
-                        </li>
-                    {% endif %}
-                
-                {% endif %}
-            {% endfor %}
-
-            {# PRÓXIMA PÁGINA #}
+            {# 4. BOTÃO PRÓXIMA (») #}
             {% if page_obj.has_next %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ querystring }}" aria-label="Próximo">
@@ -65,7 +51,7 @@
                 </li>
             {% endif %}
 
-            {# ÚLTIMA PÁGINA #}
+            {# 5. BOTÃO ÚLTIMA PÁGINA (»») #}
             {% if page_obj.number < total_pages %}
                 <li class="page-item">
                     <a class="page-link" href="?page={{ total_pages }}&{{ querystring }}" aria-label="Última">
