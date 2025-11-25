@@ -55,19 +55,19 @@
                 <thead class="table-light">
                     <tr>
                         <th>Título</th>
-                        <th>Valor</th>
                         <th>Vencimento</th>
                         <th>Pagamento</th>
                         <th>Status</th>
-                        <th>Tipo</th>
+                        <th>Valor</th>
                         <th class="text-end">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for transaction in transactions %}
                         <tr>
-                            <td>{{ transaction.title }}</td>
-                            <td>R$ {{ transaction.value }}</td>
+                            <td title="{{ transaction.title }}">
+                                {{ transaction.title|truncatechars:30 }}
+                            </td>
                             <td>
                                 {% if transaction.due_date %}
                                     {{ transaction.due_date }}
@@ -90,11 +90,19 @@
                                 {% endif %}
                             </td>
                             <td>
-                                {% if transaction.transaction_type == 'income' %}
-                                    <span class="badge bg-success">Entrada</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Saída</span>
-                                {% endif %}
+                                <strong>
+                                    {% if transaction.transaction_type == 'income' %}
+                                        <span class="text-success">
+                                            <i class="bi bi-caret-up-fill"></i>
+                                            R$ {{ transaction.value }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-danger">
+                                            <i class="bi bi-caret-down-fill"></i>
+                                            R$ {{ transaction.value }}
+                                        </span>
+                                    {% endif %}
+                                </strong>
                             </td>
                             <td class="text-end dropdown">  
                                 <button class="btn btn-sm"
