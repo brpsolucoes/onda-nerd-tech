@@ -10,13 +10,13 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'ilyhze.hospedagemelastica.com.br']
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'https://ilyhze.hospedagemelastica.com.br']
 
 INSTALLED_APPS = [
-    'apps.accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.accounts',
     'apps.finance',
 ]
 
@@ -27,6 +27,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'apps.accounts.middleware.CompanyMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -43,6 +44,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.accounts.context_processors.company_context',
             ],
         },
     },

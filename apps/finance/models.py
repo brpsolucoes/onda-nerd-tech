@@ -1,5 +1,8 @@
+from apps.accounts.models import Company
+from apps.accounts.context import get_current_company
 from apps.finance.managers import TransactionManager
 from apps.shared.models import BaseModel
+from apps.shared.managers import CompanyManager
 
 from datetime import datetime
 
@@ -12,6 +15,14 @@ class Transaction(BaseModel):
         IN = 'income', 'Entrada'
         OUT = 'outcome', 'Saída'
 
+    company = models.ForeignKey(
+        Company,
+        on_delete=models.CASCADE,
+        verbose_name='Empresa',
+        related_name='transactions',
+        blank=True,
+        null=True,
+    )
     title = models.CharField('Título', max_length=255)
     value = models.DecimalField('Valor', decimal_places=2, max_digits=10)
     due_date = models.DateField('Data de vencimento', blank=True, null=True)
@@ -32,7 +43,7 @@ class Transaction(BaseModel):
         verbose_name='Transação Principal'
     )
 
-    objects = models.Manager()
+    objects = CompanyManager()
     services = TransactionManager()
 
     class Meta:
@@ -42,6 +53,17 @@ class Transaction(BaseModel):
 
     def __str__(self):
         return f'{self.transaction_type} - {self.title}: R$ {self.value}'
+    
+    def save(self, *args, **kwargs):
+        if not self.company_id:
+            current_company_id = get_current_company()
+            
+            if current_company_id:
+                self.company_id = current_company_id
+            else:
+                raise Exception("Não é possível salvar a transação. Nenhuma empresa ativa definida no contexto da requisição.")
+        
+        super().save(*args, **kwargs)
 
     def toggle_paid(self):
         is_paid = not self.is_paid
