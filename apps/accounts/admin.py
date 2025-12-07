@@ -7,4 +7,4 @@ admin.site.unregister(Group)
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'document')
+    list_display = ('name', 'cnpj')
