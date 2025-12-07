@@ -44,6 +44,7 @@ class Transaction(BaseModel):
     )
 
     objects = CompanyManager()
+    unfiltered_objects = models.Manager()
     services = TransactionManager()
 
     class Meta:

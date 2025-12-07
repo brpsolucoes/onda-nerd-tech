@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
             self.stdout.write(self.style.SUCCESS(f'Empresa alvo encontrada: "{first_company.name}" (ID: {first_company.pk})'))
 
-            transactions_to_update = Transaction.objects.filter(company__isnull=True)
+            transactions_to_update = Transaction.unfiltered_objects.filter(company__isnull=True)
             count = transactions_to_update.count()
 
             if count == 0:
