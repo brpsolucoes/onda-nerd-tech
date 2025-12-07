@@ -17,16 +17,17 @@
             
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{% url "finance:list" %}">Financeiro</a>
+                    <a class="nav-link" href="{% url "finance:list" %}">Financeiro</a>
                 </li>
                 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'products:list' %}">Produtos</a>
                 </li>
-
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'suppliers:list' %}">Fornecedores</a>
                 </li>
+                
             </ul>
             
             <ul class="navbar-nav ms-auto d-flex align-items-center">
@@ -51,13 +52,28 @@
                     </li>
                 {% endif %}
                 
-                <li class="nav-item">
-                    <form action="{% url "accounts:logout" %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link">Sair</button>
-                    </form>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Olá, {{ user.username|default:user.email }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'accounts:settings' %}">
+                                <i class="bi bi-gear me-2"></i> Configurações
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{% url "accounts:logout" %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">
+                                    <i class="bi bi-box-arrow-right me-2"></i> Sair
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </li>
-            </ul>
+                </ul>
         </div>
     </div>
 </nav>
