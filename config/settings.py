@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'apps.finance',
     'apps.products',
     'apps.suppliers',
+    'apps.shared',
 ]
 
 MIDDLEWARE = [
@@ -91,7 +92,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'finance:list'
+LOGIN_REDIRECT_URL = 'shared:dashboard'
 LOGOUT_REDIRECT_URL = 'accounts:login'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
