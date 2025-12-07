@@ -2,7 +2,9 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import models
 from django.utils import timezone
-from apps.finance.models import Transaction
+from apps.finance.models import Transaction 
+from apps.suppliers.models import Supplier 
+
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'shared/dashboard.html'
@@ -29,4 +31,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         
         context['balance'] = income - outcome
         
+        context['total_suppliers'] = Supplier.objects.count()
+
         return context

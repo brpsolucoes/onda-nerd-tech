@@ -15,7 +15,7 @@
     <h2 class="h5 mb-3 mt-4">Resumo da Empresa</h2>
     <div class="row">
         <div class="col-md-4 mb-4">
-            <div class="card text-white 
+            <div class="card text-dark 
                 {% if balance >= 0 %}bg-success{% else %}bg-danger{% endif %} 
                 shadow-sm">
                 <div class="card-body">
@@ -27,7 +27,7 @@
         </div>
         
         <div class="col-md-4 mb-4">
-            <div class="card bg-primary text-white shadow-sm">
+            <div class="card bg-primary text-dark shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title">Transações Cadastradas este mês</h5>
                     <p class="card-text fs-2">{{ total_transactions }}</p>
@@ -36,8 +36,18 @@
             </div>
         </div>
         
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-dark shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Fornecedores Cadastrados</h5>
+                    <p class="card-text fs-2">{{ total_suppliers }}</p>
+                    <small>Total de fornecedores globais.</small>
+                </div>
+            </div>
         </div>
-
+        
+    </div>
+    
     <h2 class="h5 mb-3 mt-4">Ações e Módulos Disponíveis</h2>
     <div class="row">
         
@@ -61,6 +71,16 @@
             </div>
         </div>
         
+        <div class="col-md-3 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">👥 Fornecedores</h5>
+                    <p class="card-text">Cadastre e visualize os fornecedores, acessíveis por todas as empresas.</p>
+                    <a href="{% url 'suppliers:list' %}" class="btn btn-outline-primary">Acessar Fornecedores</a>
+                </div>
+            </div>
         </div>
+        
+    </div>
 </div>
 {% endblock content %}

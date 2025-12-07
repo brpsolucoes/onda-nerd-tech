@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block title %}Confirmar Exclusão de Fornecedor{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card bg-danger-subtle border-danger">
+        <div class="card-body">
+            <h5 class="card-title text-danger">⚠️ Confirmação de Exclusão</h5>
+            <p class="card-text">
+                Você tem certeza que deseja excluir o fornecedor **{{ supplier.name }}**? 
+                Esta ação é irreversível e pode afetar transações ou produtos vinculados.
+            </p>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger me-2">Sim, Excluir Definitivamente</button>
+                <a href="{% url 'suppliers:list' %}" class="btn btn-secondary">Não, Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
