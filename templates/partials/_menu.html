@@ -1,0 +1,31 @@
+{% load static %}
+{% with request.resolver_match.url_name as path_name %}
+    <div class="sidebar__menu-group">
+        <ul class="sidebar_nav">
+            <li>
+                <a href="{% url "shared:dashboard" %}" class="{% if path_name == 'dashboard' %}active{% endif %}">
+                    <span class="nav-icon uil uil-dashboard"></span>
+                    <span class="menu-text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url "finance:list" %}" class="{% if path_name == 'list' %}active{% endif %}">
+                    <span class="nav-icon uil uil-dollar-alt"></span>
+                    <span class="menu-text">Financeiro</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url "products:list" %}" class="{% if path_name == 'list' %}active{% endif %}">
+                    <span class="nav-icon uil uil-box"></span>
+                    <span class="menu-text">Produtos</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url "suppliers:list" %}" class="{% if path_name == 'list' %}active{% endif %}">
+                    <span class="nav-icon uil uil-truck"></span>
+                    <span class="menu-text">Fornecedores</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endwith %}
