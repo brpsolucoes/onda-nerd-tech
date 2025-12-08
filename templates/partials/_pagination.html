@@ -1,70 +1,37 @@
-{% if page_obj.has_other_pages %}
-    {% with total_pages=page_obj.paginator.num_pages %}
-    <nav aria-label="Navegação de páginas" class="mt-4">
-        <ul class="pagination justify-content-center">
-            
-            {# 1. BOTÃO PRIMEIRA PÁGINA (««) #}
-            {% if page_obj.number > 1 %}
-                <li class="page-item">
-                    <a class="page-link" href="?page=1&{{ querystring }}" aria-label="Primeira">
-                        <span aria-hidden="true">&laquo;&laquo;</span>
-                    </a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-hidden="true">&laquo;&laquo;</span>
-                </li>
-            {% endif %}
-
-            {# 2. BOTÃO ANTERIOR («) #}
+<nav class="dm-page">
+    <ul class="dm-pagination d-flex">
+        <li class="dm-pagination__item">
             {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&{{ querystring }}" aria-label="Anterior">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
+                <a href="?page={{ page_obj.previous_page_number }}" class="dm-pagination__link pagination-control">
+                    <span class="la la-angle-left"></span>
+                </a>
             {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-hidden="true">&laquo;</span>
-                </li>
-            {% endif %}
-
-            
-            {# 3. PÁGINA ATUAL / NÚMERO TOTAL #}
-            <li class="page-item active" aria-current="page">
-                <span class="page-link">
-                    Página {{ page_obj.number }} de {{ total_pages }}
+                <span class="dm-pagination__link pagination-control disabled">
+                    <span class="la la-angle-left"></span>
                 </span>
-            </li>
-            
+            {% endif %}
 
-            {# 4. BOTÃO PRÓXIMA (») #}
+            {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                    <a href="?page={{ i }}" class="dm-pagination__link active">
+                        <span class="page-number">{{ i }}</span>
+                    </a>
+                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                    <a href="?page={{ i }}" class="dm-pagination__link">
+                        <span class="page-number">{{ i }}</span>
+                    </a>
+                {% endif %}
+            {% endfor %}
+
             {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&{{ querystring }}" aria-label="Próximo">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
+                <a href="?page={{ page_obj.next_page_number }}" class="dm-pagination__link pagination-control">
+                    <span class="la la-angle-right"></span>
+                </a>
             {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-hidden="true">&raquo;</span>
-                </li>
+                <span class="dm-pagination__link pagination-control disabled">
+                    <span class="la la-angle-right"></span>
+                </span>
             {% endif %}
-
-            {# 5. BOTÃO ÚLTIMA PÁGINA (»») #}
-            {% if page_obj.number < total_pages %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ total_pages }}&{{ querystring }}" aria-label="Última">
-                        <span aria-hidden="true">&raquo;&raquo;</span>
-                    </a>
-                </li>
-            {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link" aria-hidden="true">&raquo;&raquo;</span>
-                </li>
-            {% endif %}
-
-        </ul>
-    </nav>
-    {% endwith %}
-{% endif %}
+        </li>
+    </ul>
+</nav>

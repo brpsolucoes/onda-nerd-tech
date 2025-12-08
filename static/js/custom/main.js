@@ -1079,7 +1079,7 @@
   });
 
   $("#select-search,.kb__select,.select-search").select2({
-    placeholder: "Search a person",
+    placeholder: "Selecione um valor",
     dropdownCssClass: "category-member",
     allowClear: true,
   });
