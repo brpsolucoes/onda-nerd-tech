@@ -180,9 +180,11 @@
                                 </ul>
                                 <form action="{% url "accounts:logout" %}" method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="text-link nav-author__signout">
-                                        Sair
-                                    </button>
+                                    <a class="text-link nav-author__signout">
+                                        <button type="submit" class="btn btn-dark btn-sm">
+                                            Sair
+                                        </button>
+                                    </a>
                                 </form>
                             </div>
                         </div>
