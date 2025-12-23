@@ -1,8 +1,10 @@
-<nav class="dm-page">
-    <ul class="dm-pagination d-flex">
+{% if page_obj.has_other_pages %}
+<nav class="dm-page" aria-label="Navegação de páginas">
+    <ul class="dm-pagination d-flex list-unstyled">
+        
         <li class="dm-pagination__item">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="dm-pagination__link pagination-control">
+                <a href="?page={{ page_obj.previous_page_number }}&{{ querystring }}" class="dm-pagination__link pagination-control">
                     <span class="la la-angle-left"></span>
                 </a>
             {% else %}
@@ -10,21 +12,27 @@
                     <span class="la la-angle-left"></span>
                 </span>
             {% endif %}
+        </li>
 
-            {% for i in page_obj.paginator.page_range %}
-                {% if page_obj.number == i %}
-                    <a href="?page={{ i }}" class="dm-pagination__link active">
+        {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+                <li class="dm-pagination__item">
+                    <a href="?page={{ i }}&{{ querystring }}" class="dm-pagination__link active">
                         <span class="page-number">{{ i }}</span>
                     </a>
-                {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
-                    <a href="?page={{ i }}" class="dm-pagination__link">
+                </li>
+            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                <li class="dm-pagination__item">
+                    <a href="?page={{ i }}&{{ querystring }}" class="dm-pagination__link">
                         <span class="page-number">{{ i }}</span>
                     </a>
-                {% endif %}
-            {% endfor %}
+                </li>
+            {% endif %}
+        {% endfor %}
 
+        <li class="dm-pagination__item">
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="dm-pagination__link pagination-control">
+                <a href="?page={{ page_obj.next_page_number }}&{{ querystring }}" class="dm-pagination__link pagination-control">
                     <span class="la la-angle-right"></span>
                 </a>
             {% else %}
@@ -33,5 +41,7 @@
                 </span>
             {% endif %}
         </li>
+
     </ul>
 </nav>
+{% endif %}
