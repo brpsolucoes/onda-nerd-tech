@@ -5,4 +5,4 @@ from django.contrib import admin
 
 @admin.register(Transaction)
 class TransactionAdmin(admin.ModelAdmin):
-    ...
+    list_filter = ('company',)

@@ -1,4 +1,5 @@
-from django.forms import BaseModelForm
+from apps.accounts.context import get_current_company
+
 from apps.finance.models import Transaction
 from apps.finance.forms import TransactionForm
 
@@ -32,31 +33,41 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
             transactions_to_create.append(transaction)
 
         else:
-            installment_value = original_value / installments_quantity
+            print("Creating installments...")
+            try:
+                company = get_current_company()
 
-            parent_transaction = form.save(commit=False)
-            parent_transaction.title = f'{original_title} (1/{installments_quantity})'
-            parent_transaction.is_installment = True
-            parent_transaction.installment_number = 1
-            parent_transaction.value = installment_value
-            parent_transaction.save()
+                installment_value = original_value / installments_quantity
 
-            for i in range(2, installments_quantity + 1):
-                new_due_date = original_due_date + relativedelta(months=i - 1)
+                parent_transaction = form.save(commit=False)
+                parent_transaction.title = f'{original_title} (1/{installments_quantity})'
+                parent_transaction.is_installment = True
+                parent_transaction.installment_number = 1
+                parent_transaction.value = installment_value
+                parent_transaction.save()
 
-                installment = Transaction(
-                    title=f'{original_title} ({i}/{installments_quantity})',
-                    value=installment_value,
-                    due_date=new_due_date,
-                    transaction_type=form.cleaned_data['transaction_type'],
-                    is_paid=False,
-                    is_installment=True,
-                    installment_number=i,
-                    parent_transaction=parent_transaction
-                )
-                transactions_to_create.append(installment)
+                for i in range(2, installments_quantity + 1):
+                    new_due_date = original_due_date + relativedelta(months=i - 1)
 
-            Transaction.objects.bulk_create(transactions_to_create)
+                    installment = Transaction(
+                        company_id=company,
+                        title=f'{original_title} ({i}/{installments_quantity})',
+                        value=installment_value,
+                        due_date=new_due_date,
+                        transaction_type=form.cleaned_data['transaction_type'],
+                        is_paid=False,
+                        is_installment=True,
+                        installment_number=i,
+                        parent_transaction=parent_transaction
+                    )
+                    transactions_to_create.append(installment)
+
+                Transaction.objects.bulk_create(transactions_to_create)
+                print(f"Created {len(transactions_to_create)} installments.")
+            except Exception as e:
+                print(f"Error creating installments: {e}")
+                form.add_error(None, "Houve um erro ao criar as parcelas.")
+                return super().form_invalid(form)
 
         return super().form_valid(form)
 

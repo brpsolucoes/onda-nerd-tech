@@ -1,7 +1,7 @@
 import threading
 thread_local = threading.local()
 
-def get_current_company():
+def get_current_company() -> int | None:
     return getattr(thread_local, 'company_id', None)
 
 def set_current_company(company_id):

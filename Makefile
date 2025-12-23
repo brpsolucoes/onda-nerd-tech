@@ -29,6 +29,7 @@ help:
 
 install:
 	@echo "Instalando dependências com Poetry..."
+	test -f .env || cp .env.example .env
 	poetry install
 
 # ------------------------------------------------------------------------------
